@@ -1,0 +1,17 @@
+# Environments & Credentials
+env/
+venv/
+.env*
+!.env.example
+
+# Django Database & Cache
+db.sqlite3
+__pycache__/
+*.pyc
+staticfiles/
+
+# OS & IDE Files
+.DS_Store
+.vscode/*
+!.vscode/settings.json
+.idea/

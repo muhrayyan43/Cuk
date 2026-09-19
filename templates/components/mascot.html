@@ -1,0 +1,70 @@
+{% comment %}
+Maskot daun. Pemakaian:
+  {% include "components/mascot.html" with pose="senang" size=160 %}
+pose: senang (hero, sukses) | bingung (state kosong, data tidak diketahui) | menunjuk (ajakan, halaman error)
+label: teks alternatif. Kosongkan kalau gambar hanya hiasan.
+{% endcomment %}
+<svg class="mascot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="{{ size|default:160 }}" height="{{ size|default:160 }}" {% if label %}role="img" aria-label="{{ label }}"{% else %}aria-hidden="true" focusable="false"{% endif %}>
+  {# Lengan (di belakang badan) #}
+  {% if pose == "bingung" %}
+  <path d="M52 126 Q36 142 34 158" fill="none" stroke="#004E64" stroke-width="13" stroke-linecap="round"/>
+  <path d="M52 126 Q36 142 34 158" fill="none" stroke="#25A18E" stroke-width="7" stroke-linecap="round"/>
+  <path d="M148 122 Q178 104 160 72" fill="none" stroke="#004E64" stroke-width="13" stroke-linecap="round"/>
+  <path d="M148 122 Q178 104 160 72" fill="none" stroke="#25A18E" stroke-width="7" stroke-linecap="round"/>
+  {% elif pose == "menunjuk" %}
+  <path d="M50 128 Q32 144 52 158" fill="none" stroke="#004E64" stroke-width="13" stroke-linecap="round"/>
+  <path d="M50 128 Q32 144 52 158" fill="none" stroke="#25A18E" stroke-width="7" stroke-linecap="round"/>
+  <path d="M150 126 L182 112" fill="none" stroke="#004E64" stroke-width="13" stroke-linecap="round"/>
+  <path d="M150 126 L182 112" fill="none" stroke="#25A18E" stroke-width="7" stroke-linecap="round"/>
+  {% else %}
+  <path d="M52 124 Q28 110 26 80" fill="none" stroke="#004E64" stroke-width="13" stroke-linecap="round"/>
+  <path d="M52 124 Q28 110 26 80" fill="none" stroke="#25A18E" stroke-width="7" stroke-linecap="round"/>
+  <path d="M148 124 Q172 110 174 80" fill="none" stroke="#004E64" stroke-width="13" stroke-linecap="round"/>
+  <path d="M148 124 Q172 110 174 80" fill="none" stroke="#25A18E" stroke-width="7" stroke-linecap="round"/>
+  {% endif %}
+
+  {# Kaki #}
+  <ellipse cx="84" cy="192" rx="13" ry="6" fill="#004E64"/>
+  <ellipse cx="116" cy="192" rx="13" ry="6" fill="#004E64"/>
+
+  {# Badan daun #}
+  <path d="M100 14 C152 42 176 100 152 146 C138 174 118 188 100 190 C82 188 62 174 48 146 C24 100 48 42 100 14 Z" fill="#25A18E" stroke="#004E64" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M100 14 C101 8 107 4 115 5" fill="none" stroke="#004E64" stroke-width="4" stroke-linecap="round"/>
+  <path d="M74 60 C64 76 62 94 64 108" fill="none" stroke="#9FFFCB" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <circle cx="66" cy="124" r="8" fill="#9FFFCB" opacity=".85"/>
+  <circle cx="134" cy="124" r="8" fill="#9FFFCB" opacity=".85"/>
+
+  {# Wajah + tangan menurut pose #}
+  {% if pose == "bingung" %}
+  <circle cx="82" cy="106" r="7" fill="#004E64"/>
+  <circle cx="120" cy="104" r="7" fill="#004E64"/>
+  <path d="M68 92 Q80 86 93 93" fill="none" stroke="#004E64" stroke-width="4" stroke-linecap="round"/>
+  <path d="M108 84 Q121 73 134 84" fill="none" stroke="#004E64" stroke-width="4" stroke-linecap="round"/>
+  <path d="M84 136 Q92 128 100 136 T116 136" fill="none" stroke="#004E64" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="34" cy="158" r="9" fill="#25A18E" stroke="#004E64" stroke-width="4"/>
+  <circle cx="158" cy="70" r="9" fill="#25A18E" stroke="#004E64" stroke-width="4"/>
+  <g>
+    <path d="M150 52 L140 66 L160 58 Z" fill="#7AE582" stroke="#004E64" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="172" cy="34" r="20" fill="#7AE582" stroke="#004E64" stroke-width="4"/>
+    <text x="172" y="43" text-anchor="middle" font-family="Poppins, system-ui, sans-serif" font-weight="700" font-size="26" fill="#004E64">?</text>
+  </g>
+  {% elif pose == "menunjuk" %}
+  <circle cx="80" cy="104" r="10" fill="#fff" stroke="#004E64" stroke-width="3.5"/>
+  <circle cx="120" cy="104" r="10" fill="#fff" stroke="#004E64" stroke-width="3.5"/>
+  <circle cx="84" cy="104" r="5" fill="#004E64"/>
+  <circle cx="124" cy="104" r="5" fill="#004E64"/>
+  <path d="M88 128 Q100 139 112 128" fill="none" stroke="#004E64" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="52" cy="158" r="9" fill="#25A18E" stroke="#004E64" stroke-width="4"/>
+  <circle cx="184" cy="111" r="8" fill="#25A18E" stroke="#004E64" stroke-width="4"/>
+  <rect x="188" y="105" width="11" height="7" rx="3.5" fill="#25A18E" stroke="#004E64" stroke-width="3"/>
+  {% else %}
+  <path d="M70 106 Q80 93 90 106" fill="none" stroke="#004E64" stroke-width="5" stroke-linecap="round"/>
+  <path d="M110 106 Q120 93 130 106" fill="none" stroke="#004E64" stroke-width="5" stroke-linecap="round"/>
+  <path d="M84 122 Q100 150 116 122 Z" fill="#004E64" stroke="#004E64" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M92 134 Q100 141 108 134 Q100 130 92 134 Z" fill="#7AE582"/>
+  <circle cx="26" cy="78" r="9" fill="#25A18E" stroke="#004E64" stroke-width="4"/>
+  <circle cx="174" cy="78" r="9" fill="#25A18E" stroke="#004E64" stroke-width="4"/>
+  <path d="M22 40 v14 M15 47 h14" stroke="#00A5CF" stroke-width="4" stroke-linecap="round"/>
+  <path d="M180 30 v12 M174 36 h12" stroke="#00A5CF" stroke-width="4" stroke-linecap="round"/>
+  {% endif %}
+</svg>

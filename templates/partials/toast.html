@@ -1,0 +1,5 @@
+{% load ui %}<div class="toast toast--{{ tag }}" role="{% if tag == 'error' %}alert{% else %}status{% endif %}">
+  <span class="toast__icon">{% if tag == "success" %}{% icon "circle-check" %}{% elif tag == "error" %}{% icon "circle-x" %}{% elif tag == "warning" %}{% icon "triangle-alert" %}{% else %}{% icon "info" %}{% endif %}</span>
+  <p class="toast__body">{{ text }}</p>
+  <button type="button" class="icon-btn toast__close" aria-label="Tutup notifikasi">{% icon "x" 18 %}</button>
+</div>

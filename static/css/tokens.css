@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Token desain PilihCuk. Dipakai situs utama dan panel Kurator.
+   Semua warna lewat variabel CSS supaya mode gelap bisa ditambah nanti.
+   ========================================================================== */
+:root {
+  /* Merek */
+  --brand-900: #004E64;   /* judul, tombol utama, navbar, sidebar Kurator */
+  --brand-950: #003A4B;   /* hover tombol utama */
+  --brand-500: #25A18E;   /* ikon, garis aktif (bukan untuk teks kecil) */
+  --accent-500: #00A5CF;  /* sorotan, aksen panel Kurator (bukan teks di latar terang) */
+  --mint-200: #9FFFCB;    /* latar lembut, sel nilai terbaik */
+  --lime-300: #7AE582;    /* CTA di latar gelap, status sukses */
+
+  /* Netral */
+  --bg: #F4FAFA;
+  --surface: #FFFFFF;
+  --text: #0B2A33;
+  --text-muted: #4A6B75;
+  --border: #D5E6E8;          /* garis dekoratif */
+  --border-strong: #6E8A92;   /* batas kontrol form (kontras >= 3:1) */
+  --danger: #B42318;
+
+  /* Status: latar lembut dan warna teks/ikon */
+  --success-bg: #E3F6EC;  --success-fg: #0B6E4F;
+  --warning-bg: #FFF4DB;  --warning-fg: #7A4B00;
+  --danger-bg:  #FDECEA;  --danger-fg:  #B42318;
+  --info-bg:    #E1F5FA;  --info-fg:    #004E64;
+
+  /* Skor Nutri-Score A-E (A dan E sedikit digelapkan agar teks putih lolos 4,5:1) */
+  --nutri-a: #1C8548; --nutri-b: #7CBF3B; --nutri-c: #F4C20D; --nutri-d: #F08A24; --nutri-e: #D24226;
+  /* NOVA 1-4 */
+  --nova-1: #2E7D6B; --nova-2: #8DB35A; --nova-3: #E0A030; --nova-4: #C0492F;
+  /* Green-Score A-E */
+  --green-a: #0B6E4F; --green-b: #4C9F70; --green-c: #A3B18A; --green-d: #B08968; --green-e: #7F5539;
+  /* Tidak diketahui / tidak berlaku */
+  --unknown-border: #7A8388;
+
+  /* Tipografi */
+  --font-heading: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Chivo Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Radius bertingkat: kontrol < kartu < dialog */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* Bayangan bertingkat */
+  --shadow-1: 0 1px 2px rgba(0, 78, 100, .08);
+  --shadow-2: 0 4px 14px rgba(0, 78, 100, .10);
+  --shadow-3: 0 14px 36px rgba(0, 78, 100, .18);
+
+  /* Target sentuh minimal dan warna cincin fokus */
+  --tap: 44px;
+  --focus: var(--brand-900);
+}
+
+/* Di latar gelap, cincin fokus memakai lime (kontras 5,9:1 terhadap brand-900). */
+.on-dark { --focus: var(--lime-300); }
+
+/* --------------------------------------------------------------------------
+   Reset ringkas (Tailwind preflight dimatikan di base.html)
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; border: 0 solid var(--border); }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote, pre { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg, video { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; margin: 0; }
+button { cursor: pointer; background: none; padding: 0; }
+table { border-collapse: collapse; }
+[hidden] { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   Tipografi: Poppins untuk judul, Chivo Mono untuk isi dan label
+   -------------------------------------------------------------------------- */
+h1, .h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--brand-900);
+}
+h2, .h2 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--brand-900);
+}
+h3, .h3 { font-weight: 700; font-size: 1.125rem; line-height: 1.4; color: var(--text); }
+.small { font-size: .875rem; line-height: 1.55; }
+.label { font-weight: 700; font-size: .875rem; line-height: 1.4; }
+.muted { color: var(--text-muted); }
+.measure { max-width: 64ch; }
+
+a { color: var(--brand-900); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

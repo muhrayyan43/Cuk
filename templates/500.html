@@ -1,0 +1,32 @@
+{# Sengaja mandiri: tanpa extends, tanpa {% static %}, tanpa konteks. Halaman ini tetap tampil walau static/settings bermasalah. #}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terjadi kesalahan di server | {{ SITE_NAME|default:"PilihCuk" }}</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:1.5rem;background:#F4FAFA;color:#0B2A33;
+      font-family:"Chivo Mono",ui-monospace,Menlo,Consolas,monospace;line-height:1.65}
+    main{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2rem;align-items:center;max-width:44rem}
+    h1{margin:.25rem 0 .75rem;font-family:"Poppins",system-ui,sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;color:#004E64}
+    p{margin:0 0 1rem;max-width:60ch}
+    .code{font-family:"Poppins",system-ui,sans-serif;font-weight:700;color:#4A6B75;margin:0}
+    a{display:inline-flex;align-items:center;min-height:44px;padding:.6rem 1.15rem;border-radius:8px;background:#004E64;color:#fff;font-weight:700;text-decoration:none}
+    a:focus-visible{outline:3px solid #004E64;outline-offset:2px}
+    @media (max-width:40rem){main{grid-template-columns:1fr;justify-items:center;text-align:center}}
+  </style>
+</head>
+<body>
+  <main>
+    {% include "components/mascot.html" with pose="menunjuk" size=170 %}
+    <div>
+      <p class="code">Kode 500</p>
+      <h1>Terjadi kesalahan di server</h1>
+      <p>Permintaanmu tidak bisa diproses karena ada masalah di sisi kami, bukan di isianmu. Tunggu beberapa saat, lalu muat ulang halaman. Kalau masih terjadi, kembali ke beranda.</p>
+      <a href="/">Ke beranda</a>
+    </div>
+  </main>
+</body>
+</html>

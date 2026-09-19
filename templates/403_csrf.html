@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Formulir kedaluwarsa | {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="wrap wrap--narrow">
+  <section class="message-page">
+    {% include "components/mascot.html" with pose="menunjuk" size=180 %}
+    <div class="stack">
+      <p class="code">Kode 403</p>
+      <h1>Formulir sudah kedaluwarsa</h1>
+      <p class="measure">Formulir yang kamu kirim tidak lagi berlaku. Biasanya karena halaman terlalu lama terbuka atau cookie browser diblokir. Muat ulang halaman, lalu kirim formulirnya lagi.</p>
+      <div class="cluster">
+        <button type="button" class="btn btn-primary" data-reload>Muat ulang halaman</button>
+        <a class="btn btn-secondary" href="{% url 'main:landing' %}">Ke beranda</a>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

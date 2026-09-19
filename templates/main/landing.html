@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load ui %}
+{% block content %}
+<div class="wrap wrap--narrow">
+  <section class="empty-state">
+    {% include "components/mascot.html" with pose="senang" size=180 %}
+    <h1>{{ SITE_NAME }}</h1>
+    <p class="measure">Kerangka tampilan sudah berjalan. Halaman utama yang sebenarnya dibuat di Bagian C.</p>
+    {% if show_styleguide %}<a class="btn btn-secondary" href="{% url 'main:styleguide' %}">Lihat rujukan komponen</a>{% endif %}
+  </section>
+</div>
+{% endblock %}

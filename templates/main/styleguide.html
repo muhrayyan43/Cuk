@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+{% load ui %}
+{% block title %}Rujukan komponen | {{ SITE_NAME }}{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Gaya khusus halaman rujukan ini saja */
+  .sg-section { margin-top: 4rem; }
+  .sg-section > h2 { margin-bottom: 1.25rem; }
+  .sg-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
+  .sg-swatch { display: grid; gap: .25rem; font-size: .8125rem; }
+  .sg-swatch i { display: block; height: 3.5rem; border-radius: var(--radius-md); border: 1px solid rgba(11,42,51,.15); }
+  .sg-swatch b { font-weight: 700; }
+  .sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; }
+  .sg-cell { display: grid; justify-items: center; gap: .5rem; text-align: center; font-size: .8125rem; color: var(--text-muted); }
+  .sg-icons { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); }
+  .sg-note { font-size: .875rem; color: var(--text-muted); margin-bottom: 1rem; max-width: 64ch; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap" style="padding-block: 2.5rem 1rem;">
+  <header class="stack" style="max-width: 48rem;">
+    <h1>Rujukan komponen</h1>
+    <p class="measure">Halaman ini hanya muncul saat mode pengembangan. Dipakai untuk memeriksa token dan komponen, dan sebagai acuan saat menyalin desain ke Figma.</p>
+  </header>
+
+  {# ---------------- Warna ---------------- #}
+  <section class="sg-section" id="warna">
+    <h2>Warna</h2>
+    <p class="sg-note">Merek dan netral. Teks kecil hanya memakai brand-900, text, dan text-muted di atas latar terang.</p>
+    <div class="sg-grid">
+      <div class="sg-swatch"><i style="background:var(--brand-900)"></i><b>brand-900</b><span>#004E64</span></div>
+      <div class="sg-swatch"><i style="background:var(--brand-500)"></i><b>brand-500</b><span>#25A18E</span></div>
+      <div class="sg-swatch"><i style="background:var(--accent-500)"></i><b>accent-500</b><span>#00A5CF</span></div>
+      <div class="sg-swatch"><i style="background:var(--mint-200)"></i><b>mint-200</b><span>#9FFFCB</span></div>
+      <div class="sg-swatch"><i style="background:var(--lime-300)"></i><b>lime-300</b><span>#7AE582</span></div>
+      <div class="sg-swatch"><i style="background:var(--bg)"></i><b>bg</b><span>#F4FAFA</span></div>
+      <div class="sg-swatch"><i style="background:var(--surface)"></i><b>surface</b><span>#FFFFFF</span></div>
+      <div class="sg-swatch"><i style="background:var(--text)"></i><b>text</b><span>#0B2A33</span></div>
+      <div class="sg-swatch"><i style="background:var(--text-muted)"></i><b>text-muted</b><span>#4A6B75</span></div>
+      <div class="sg-swatch"><i style="background:var(--border-strong)"></i><b>border-strong</b><span>#6E8A92</span></div>
+      <div class="sg-swatch"><i style="background:var(--danger)"></i><b>danger</b><span>#B42318</span></div>
+      <div class="sg-swatch"><i style="background:var(--unknown-border)"></i><b>unknown</b><span>#7A8388</span></div>
+    </div>
+  </section>
+
+  {# ---------------- Tipografi ---------------- #}
+  <section class="sg-section" id="tipografi">
+    <h2>Tipografi</h2>
+    <div class="card stack" style="--stack: 1.25rem;">
+      <div><p class="small muted">Heading 1: Poppins 700</p><p class="h1">Bandingkan sebelum memilih</p></div>
+      <div><p class="small muted">Heading 2: Poppins 600</p><p class="h2">Tiga mie instan di satu rak</p></div>
+      <div><p class="small muted">Body: Chivo Mono 400, 16 px</p><p class="measure">Shelf adalah kumpulan produk yang saling menggantikan, dan kamu hanya akan mengambil satu.</p></div>
+      <div><p class="small muted">Body kecil: Chivo Mono 400, 14 px</p><p class="small measure">Nilai gizi dihitung per 100 g produk. Informasi ini bersifat informatif.</p></div>
+      <div><p class="small muted">Label: Chivo Mono 700, 14 px</p><p class="label">Nama shelf</p></div>
+    </div>
+  </section>
+
+  {# ---------------- Tombol ---------------- #}
+  <section class="sg-section" id="tombol">
+    <h2>Tombol</h2>
+    <div class="card stack" style="--stack: 1.5rem;">
+      <div class="cluster">
+        <button class="btn btn-primary">Buat shelf</button>
+        <button class="btn btn-secondary">Batal</button>
+        <button class="btn btn-ghost">Lihat detail</button>
+        <button class="btn btn-danger">Hapus shelf</button>
+        <button class="btn btn-primary" disabled>Tidak aktif</button>
+        <button class="btn btn-primary" aria-busy="true">Menyimpan</button>
+      </div>
+      <div class="cluster">
+        <button class="btn btn-primary btn-sm">Kecil, 40 px</button>
+        <button class="btn btn-primary">Standar, 44 px</button>
+        <button class="btn btn-primary btn-lg">{% icon "plus" 20 %} Besar, 52 px</button>
+        <button class="btn btn-secondary">{% icon "search" 18 %} Cari produk</button>
+      </div>
+      <div class="band-dark cluster" style="padding: 1.25rem; border-radius: var(--radius-lg);">
+        <button class="btn btn-lime btn-lg">Coba buat shelf</button>
+        <button class="btn btn-light btn-lg">Daftar</button>
+        <span class="small">Di latar gelap, fokus keyboard memakai lime.</span>
+      </div>
+    </div>
+  </section>
+
+  {# ---------------- Formulir ---------------- #}
+  <section class="sg-section" id="formulir">
+    <h2>Formulir</h2>
+    <p class="sg-note">Field dirender lewat components/field.html. Isian pertama dan kedua sengaja salah untuk menampilkan pesan error.</p>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1.5rem;">
+      <form class="card stack" style="--stack: 1.25rem; max-width: 34rem;" onsubmit="return false;" novalidate>
+        {% include "components/field.html" with field=form.display_name %}
+        {% include "components/field.html" with field=form.email %}
+        {% include "components/field.html" with field=form.category %}
+        {% include "components/field.html" with field=form.note %}
+        <label class="check"><input type="checkbox" checked> <span>Tampilkan shelf ini ke publik</span></label>
+        <button class="btn btn-primary" type="submit">Simpan</button>
+      </form>
+    </div>
+  </section>
+
+  {# ---------------- Skor ---------------- #}
+  <section class="sg-section" id="skor">
+    <h2>Badge skor</h2>
+    <p class="sg-note">Bentuk menandai jenis skor: kotak untuk Nutri-Score, lingkaran untuk NOVA, daun untuk Green-Score. Huruf atau angka selalu tertulis di dalam badge.</p>
+    <div class="card stack" style="--stack: 1.75rem;">
+      <div class="sg-row">
+        <div class="sg-cell">{% score_badge "nutri" "a" %}A</div>
+        <div class="sg-cell">{% score_badge "nutri" "b" %}B</div>
+        <div class="sg-cell">{% score_badge "nutri" "c" %}C</div>
+        <div class="sg-cell">{% score_badge "nutri" "d" %}D</div>
+        <div class="sg-cell">{% score_badge "nutri" "e" %}E</div>
+        <span class="muted small">Nutri-Score</span>
+      </div>
+      <div class="sg-row">
+        <div class="sg-cell">{% score_badge "nova" 1 %}1</div>
+        <div class="sg-cell">{% score_badge "nova" 2 %}2</div>
+        <div class="sg-cell">{% score_badge "nova" 3 %}3</div>
+        <div class="sg-cell">{% score_badge "nova" 4 %}4</div>
+        <span class="muted small">NOVA</span>
+      </div>
+      <div class="sg-row">
+        <div class="sg-cell">{% score_badge "green" "a" %}A</div>
+        <div class="sg-cell">{% score_badge "green" "b" %}B</div>
+        <div class="sg-cell">{% score_badge "green" "c" %}C</div>
+        <div class="sg-cell">{% score_badge "green" "d" %}D</div>
+        <div class="sg-cell">{% score_badge "green" "e" %}E</div>
+        <span class="muted small">Green-Score</span>
+      </div>
+      <div class="sg-row">
+        <div class="sg-cell">{% score_badge "green" "unknown" label=True %}</div>
+        <div class="sg-cell">{% score_badge "nutri" "not-applicable" label=True %}</div>
+        <div class="sg-cell">{% score_badge "green" "c" estimate=True label=True %}</div>
+        <div class="sg-cell">{% score_badge "nutri" None label=True %}</div>
+      </div>
+      <div class="sg-row">
+        <div class="sg-cell">{% score_badge "nutri" "a" size="sm" %}kecil</div>
+        <div class="sg-cell">{% score_badge "nutri" "a" size="md" %}sedang</div>
+        <div class="sg-cell">{% score_badge "nutri" "a" size="lg" %}besar</div>
+        <div class="sg-cell">{% score_badge "green" "b" size="sm" estimate=True %}kecil estimasi</div>
+        <div class="sg-cell">{% score_badge "green" "b" size="lg" estimate=True %}besar estimasi</div>
+      </div>
+      <div class="cluster">
+        <span class="badge badge--info">{% icon "info" 14 %} Info</span>
+        <span class="badge badge--success">{% icon "circle-check" 14 %} Disetujui</span>
+        <span class="badge badge--warning">{% icon "triangle-alert" 14 %} Menunggu</span>
+        <span class="badge badge--danger">{% icon "circle-x" 14 %} Ditolak</span>
+        <span class="badge">Produk manual</span>
+      </div>
+    </div>
+  </section>
+
+  {# ---------------- Tabel pembanding ---------------- #}
+  <section class="sg-section" id="tabel">
+    <h2>Tabel pembanding</h2>
+    <p class="sg-note">Arahkan kursor ke tabel: tabel terangkat sedikit. Kolom label dan header produk menempel saat digulir. Data di bawah hanya contoh.</p>
+    <div class="table-wrap table-wrap--tall lift" tabindex="0" role="region" aria-label="Contoh tabel pembanding">
+      <table class="data-table compare" style="--cols: 5;">
+        <thead>
+          <tr>
+            <th scope="col">Atribut</th>
+            <th scope="col"><div class="product-head"><span class="product-thumb"></span>Mie goreng A</div></th>
+            <th scope="col"><div class="product-head"><span class="product-thumb"></span>Mie goreng B</div></th>
+            <th scope="col"><div class="product-head"><span class="product-thumb"></span>Mie kuah C</div></th>
+            <th scope="col"><div class="product-head"><span class="product-thumb"></span>Mie goreng D</div></th>
+            <th scope="col"><div class="product-head"><span class="product-thumb"></span>Mie kuah E</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Nutri-Score</th>
+            <td>{% score_badge "nutri" "c" %}</td>
+            <td class="is-best">{% score_badge "nutri" "b" %}<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td>
+            <td>{% score_badge "nutri" "d" %}</td>
+            <td>{% score_badge "nutri" "e" %}</td>
+            <td>{% score_badge "nutri" "unknown" label=True %}</td>
+          </tr>
+          <tr>
+            <th scope="row">Green-Score</th>
+            <td>{% score_badge "green" "d" %}</td>
+            <td>{% score_badge "green" "c" estimate=True label=True %}</td>
+            <td class="is-best">{% score_badge "green" "b" %}<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td>
+            <td>{% score_badge "green" "unknown" label=True %}</td>
+            <td>{% score_badge "green" "e" %}</td>
+          </tr>
+          <tr>
+            <th scope="row">NOVA</th>
+            <td>{% score_badge "nova" 4 %}</td>
+            <td>{% score_badge "nova" 4 %}</td>
+            <td class="is-best">{% score_badge "nova" 3 %}<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td>
+            <td>{% score_badge "nova" 4 %}</td>
+            <td>{% score_badge "nova" 4 %}</td>
+          </tr>
+          <tr>
+            <th scope="row">Energi (kkal)</th>
+            <td>452</td><td>430</td><td class="is-best">388<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td><td>471</td><td>445</td>
+          </tr>
+          <tr>
+            <th scope="row">Gula (g)</th>
+            <td>3,1</td><td class="is-best">1,8<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td><td>2,4</td><td>4,0</td><td>2,9</td>
+          </tr>
+          <tr>
+            <th scope="row">Garam (g)</th>
+            <td>3,4</td><td>3,0</td><td class="is-best">2,1<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td><td>3,9</td><td>3,2</td>
+          </tr>
+          <tr>
+            <th scope="row">Protein (g)</th>
+            <td>8,5</td><td>9,1</td><td>7,2</td><td class="is-best">10,3<span class="best-mark">{% icon "check" 14 %}<span class="sr-only">nilai terbaik</span></span></td><td>8,0</td>
+          </tr>
+          <tr>
+            <th scope="row">Kemasan</th>
+            <td>Plastik</td><td>Plastik</td><td>Plastik dan kertas</td><td>Plastik</td><td>Plastik</td>
+          </tr>
+          <tr>
+            <th scope="row">Asal</th>
+            <td>Indonesia</td><td>Indonesia</td><td>Indonesia</td><td>Indonesia</td><td>Indonesia</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {# ---------------- Notifikasi ---------------- #}
+  <section class="sg-section" id="notifikasi">
+    <h2>Notifikasi</h2>
+    <p class="sg-note">Pesan Django (messages) dirender server sebagai toast yang sama. Dari JavaScript: App.toast("teks", {type: "success"}). Pesan error tidak hilang sendiri.</p>
+    <div class="card cluster">
+      <button class="btn btn-secondary" data-demo-toast="success">Sukses</button>
+      <button class="btn btn-secondary" data-demo-toast="info">Info</button>
+      <button class="btn btn-secondary" data-demo-toast="warning">Peringatan</button>
+      <button class="btn btn-secondary" data-demo-toast="error">Error</button>
+    </div>
+  </section>
+
+  {# ---------------- Modal ---------------- #}
+  <section class="sg-section" id="modal">
+    <h2>Modal</h2>
+    <p class="sg-note">Memakai elemen dialog bawaan browser, jadi fokus terkunci di dalam dan Esc menutup. App.confirm() mengembalikan janji berisi true atau false.</p>
+    <div class="card cluster">
+      <button class="btn btn-secondary" data-modal-open="#demo-modal">Buka modal</button>
+      <button class="btn btn-danger" id="demo-confirm">Hapus shelf</button>
+      <span class="small muted" id="demo-confirm-result" aria-live="polite"></span>
+    </div>
+    <dialog id="demo-modal" class="modal" aria-labelledby="demo-modal-title">
+      <div class="modal__head">
+        <h2 class="modal__title" id="demo-modal-title">Tambah produk ke shelf</h2>
+        <button type="button" class="icon-btn" data-modal-close aria-label="Tutup">{% icon "x" 20 %}</button>
+      </div>
+      <div class="modal__body"><p>Cari produk lewat nama atau barcode. Shelf berisi paling banyak 12 produk.</p></div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn-secondary" data-modal-close autofocus>Batal</button>
+        <button type="button" class="btn btn-primary" data-modal-close>Tambahkan</button>
+      </div>
+    </dialog>
+  </section>
+
+  {# ---------------- Skeleton ---------------- #}
+  <section class="sg-section" id="skeleton">
+    <h2>Skeleton loader</h2>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.5rem;">
+      <div class="card" role="status" aria-busy="true">
+        <span class="sr-only">Memuat produk</span>
+        <div class="cluster" style="flex-wrap: nowrap;">
+          <span class="skeleton skeleton--circle" style="width: 3.5rem; height: 3.5rem;"></span>
+          <div style="flex: 1;"><span class="skeleton skeleton--text" style="width: 70%;"></span><span class="skeleton skeleton--text" style="width: 40%;"></span></div>
+        </div>
+        <span class="skeleton skeleton--block" style="margin-top: 1rem;"></span>
+      </div>
+      <div class="card" role="status" aria-busy="true">
+        <span class="sr-only">Memuat tabel</span>
+        <span class="skeleton skeleton--title"></span>
+        <span class="skeleton skeleton--text"></span><span class="skeleton skeleton--text"></span><span class="skeleton skeleton--text" style="width: 80%;"></span>
+      </div>
+    </div>
+  </section>
+
+  {# ---------------- Maskot ---------------- #}
+  <section class="sg-section" id="maskot">
+    <h2>Maskot</h2>
+    <div class="card sg-row" style="align-items: flex-end;">
+      <div class="sg-cell">{% include "components/mascot.html" with pose="senang" size=160 %}senang: hero, sukses</div>
+      <div class="sg-cell">{% include "components/mascot.html" with pose="bingung" size=160 %}bingung: state kosong, data tidak diketahui</div>
+      <div class="sg-cell">{% include "components/mascot.html" with pose="menunjuk" size=160 %}menunjuk: ajakan, halaman error</div>
+    </div>
+  </section>
+
+  {# ---------------- Ikon ---------------- #}
+  <section class="sg-section" id="ikon">
+    <h2>Ikon</h2>
+    <p class="sg-note">Lucide. Tambah ikon baru di main/templatetags/ui.py, lalu pakai {% verbatim %}{% icon "nama" %}{% endverbatim %}.</p>
+    <div class="card sg-icons">
+      {% for name in icon_names %}<div class="sg-cell">{% icon name 24 %}{{ name }}</div>{% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.querySelectorAll("[data-demo-toast]").forEach(function (btn) {
+    var texts = {
+      success: "Shelf berhasil disimpan.",
+      info: "Data produk diperbarui dari Open Food Facts.",
+      warning: "Shelf hampir penuh: tersisa 2 tempat dari 12.",
+      error: "Produk tidak bisa ditambahkan karena shelf sudah berisi 12 produk."
+    };
+    btn.addEventListener("click", function () {
+      var t = btn.getAttribute("data-demo-toast");
+      App.toast(texts[t], { type: t });
+    });
+  });
+  document.getElementById("demo-confirm").addEventListener("click", function () {
+    App.confirm({
+      title: "Hapus shelf ini?",
+      message: "Shelf dan seluruh isinya akan dihapus permanen. Riwayat keputusanmu tetap tersimpan.",
+      confirmText: "Hapus shelf",
+      danger: true
+    }).then(function (ok) {
+      document.getElementById("demo-confirm-result").textContent = ok ? "Kamu memilih: hapus." : "Kamu memilih: batal.";
+    });
+  });
+</script>
+{% endblock %}

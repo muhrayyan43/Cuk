@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Halaman tidak ditemukan | {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="wrap wrap--narrow">
+  <section class="message-page">
+    {% include "components/mascot.html" with pose="menunjuk" size=180 %}
+    <div class="stack">
+      <p class="code">Kode 404</p>
+      <h1>Halaman tidak ditemukan</h1>
+      <p class="measure">Alamat yang kamu buka tidak ada, atau halamannya sudah dipindah. Periksa ejaan alamatnya, atau mulai lagi dari beranda.</p>
+      <div class="cluster"><a class="btn btn-primary" href="{% url 'main:landing' %}">Ke beranda</a></div>
+    </div>
+  </section>
+</div>
+{% endblock %}
