@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load ui %}
+{% block title %}Masuk | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="wrap wrap--narrow" style="padding-block: clamp(2rem, 6vw, 4rem);">
+  <div class="card stack" style="--stack: 1.5rem; max-width: 26rem; margin-inline: auto;">
+    <div class="stack" style="--stack: .35rem;">
+      <h1 class="h2">Masuk ke {{ SITE_NAME }}</h1>
+      <p class="muted small">
+        Belum punya akun?
+        <a href="{% url 'accounts:register' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">Daftar di sini</a>.
+      </p>
+    </div>
+
+    {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+        <p class="error-text">{% icon "circle-alert" 16 %}<span>{{ error }}</span></p>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" class="stack" style="--stack: 1.15rem;" novalidate>
+      {% csrf_token %}
+      {% include "components/field.html" with field=form.username %}
+      {% include "components/field.html" with field=form.password %}
+      <input type="hidden" name="next" value="{{ request.GET.next }}">
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Masuk</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

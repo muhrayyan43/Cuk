@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load ui %}
+{% block title %}Daftar | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<div class="wrap wrap--narrow" style="padding-block: clamp(2rem, 6vw, 4rem);">
+  <div class="card stack" style="--stack: 1.5rem; max-width: 28rem; margin-inline: auto;">
+    <div class="stack" style="--stack: .35rem;">
+      <h1 class="h2">Buat akun {{ SITE_NAME }}</h1>
+      <p class="muted small">
+        Sudah punya akun?
+        <a href="{% url 'accounts:login' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">Masuk di sini</a>.
+      </p>
+    </div>
+
+    {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+        <p class="error-text">{% icon "circle-alert" 16 %}<span>{{ error }}</span></p>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" class="stack" style="--stack: 1.15rem;" novalidate>
+      {% csrf_token %}
+      {% include "components/field.html" with field=form.username %}
+      {% include "components/field.html" with field=form.email %}
+      {% include "components/field.html" with field=form.display_name %}
+      {% include "components/field.html" with field=form.password1 %}
+      {% include "components/field.html" with field=form.password2 %}
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Daftar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

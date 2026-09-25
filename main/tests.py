@@ -282,12 +282,13 @@ class NavigationTests(TestCase):
 
 
 class NavigationWithoutModulesTests(TestCase):
-    """Sekarang modul lain belum ada: menu kosong, tapi halaman tetap jalan."""
+    """Modul katalog/shelf/dst. belum ada, tapi accounts sudah: menu item kosong,
+    sementara tautan akun dan halaman tetap berfungsi memakai URL project asli."""
 
     def test_missing_urls_are_skipped_without_error(self):
         nav = build_navigation(AnonymousUser(), "/")
         self.assertEqual(nav["items"], [])
-        self.assertIsNone(nav["login_href"])
+        self.assertEqual(nav["login_href"], reverse("accounts:login"))
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
 
@@ -295,4 +296,4 @@ class NavigationWithoutModulesTests(TestCase):
         self.client.force_login(make_user("budi"))
         response = self.client.get("/")
         self.assertContains(response, "Budi")
-        self.assertNotContains(response, '<form class="site-nav__logout"')
+        self.assertContains(response, "<form class=\"site-nav__logout\"")
