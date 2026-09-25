@@ -1,8 +1,11 @@
+from types import SimpleNamespace
+
 from django import forms
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import render
 
+from .context_processors import build_navigation
 from .templatetags.ui import ICONS
 
 
@@ -30,4 +33,22 @@ def styleguide(request):
     if not settings.DEBUG:
         raise Http404
     form = _DemoForm(data={"display_name": "", "email": "budi@", "category": "mie"})
-    return render(request, "main/styleguide.html", {"form": form, "icon_names": sorted(ICONS)})
+    context = {"form": form, "icon_names": sorted(ICONS)}
+    context.update(_demo_navs())
+    return render(request, "main/styleguide.html", context)
+
+
+def _demo_navs():
+    """Navbar/footer untuk tiga kondisi pengguna, memakai kode navigasi yang sama
+    dengan situs. Semua tautan dibuat palsu ("#nama") supaya semua menu tampil."""
+    def fake_user(role):
+        profile = SimpleNamespace(role=role, display_name="Rayyan")
+        return SimpleNamespace(is_authenticated=True, profile=profile, get_username=lambda: "rayyan")
+
+    resolve = lambda name: "#" + name  # noqa: E731
+    path = "#catalog:list"
+    return {
+        "nav_guest": build_navigation(None, path, resolve),
+        "nav_user": build_navigation(fake_user("user"), path, resolve),
+        "nav_curator": build_navigation(fake_user("curator"), path, resolve),
+    }

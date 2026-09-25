@@ -86,6 +86,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "main.context_processors.site",
+                "main.context_processors.navigation",
             ],
         },
     },
@@ -166,3 +168,4 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", f"{SITE_NAME} <no-reply@pil
 OFF_USER_AGENT = os.getenv(
     "OFF_USER_AGENT", "PilihCuk/0.1 (tugas kuliah PBP Fasilkom UI)"
 )
+

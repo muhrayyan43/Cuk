@@ -1,7 +1,35 @@
-{# Kerangka sementara. Footer lengkap dibuat di A.3. #}
+{% load ui %}
 <footer class="site-footer">
-  <div class="wrap stack small muted">
-    <p>Data produk berasal dari <a href="https://world.openfoodfacts.org" rel="noopener">Open Food Facts</a> (lisensi ODbL), gambar produk berlisensi CC BY-SA.</p>
-    <p>Informasi gizi di sini bersifat informatif, bukan saran kesehatan.</p>
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <div class="stack" style="--stack: .75rem;">
+        <a class="brand" href="{% url 'main:landing' %}">{% icon "leaf" 24 %}<span>{{ SITE_NAME }}</span></a>
+        <p class="small muted measure">Bandingkan gizi dan jejak lingkungan sebelum pilih satu.</p>
+      </div>
+
+      {% if nav.items %}
+      <nav aria-label="Jelajahi">
+        <h2 class="footer-title">Jelajahi</h2>
+        <ul class="footer-list">
+          {% for item in nav.items %}<li><a href="{{ item.url }}">{{ item.label }}</a></li>{% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+
+      {% if nav.account_links %}
+      <nav aria-label="Akun">
+        <h2 class="footer-title">Akun</h2>
+        <ul class="footer-list">
+          {% for link in nav.account_links %}<li><a href="{{ link.url }}">{{ link.label }}</a></li>{% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+
+    <div class="site-footer__legal stack" style="--stack: .5rem;">
+      <p>Data produk berasal dari <a href="https://world.openfoodfacts.org" rel="noopener">Open Food Facts</a> dan dilisensikan di bawah <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">ODbL</a>. Gambar produk berlisensi <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA</a>.</p>
+      <p>Informasi gizi dan skor di sini bersifat informatif, bukan saran kesehatan. Skor bertanda &asymp; adalah estimasi kami, bukan nilai resmi.</p>
+      <p>Proyek Tengah Semester Pemrograman Berbasis Platform, Fakultas Ilmu Komputer Universitas Indonesia. Kelompok 4, kelas B.</p>
+    </div>
   </div>
 </footer>

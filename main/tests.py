@@ -1,14 +1,17 @@
 from django import forms
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 from django.contrib.messages import constants
 from django.contrib.messages.storage.base import Message
+from django.http import HttpResponse
 from django.template import Context, Template
 from django.template.loader import render_to_string
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase, override_settings
-from django.urls import reverse
+from django.urls import include, path, reverse
 from django.views.defaults import permission_denied, server_error
-
+from accounts.roles import get_role, is_curator
+from .context_processors import build_navigation
+from .templatetags.ui import ICONS, normalize_score
 from .templatetags.ui import ICONS, normalize_score
 
 
@@ -159,3 +162,137 @@ class PageTests(TestCase):
         self.assertIn("toast--success", html)
         self.assertIn("Shelf tersimpan", html)
         self.assertIn('role="alert"', html)  # error memakai role alert
+
+# ---------------------------------------------------------------------------
+# Navigasi: tiga kondisi pengguna
+# ---------------------------------------------------------------------------
+def _stub(request):
+    return HttpResponse("ok")
+
+
+def _ns(namespace, **routes):
+    patterns = [path(route, _stub, name=name) for name, route in routes.items()]
+    return path(f"{namespace}/", include((patterns, namespace)))
+
+
+# URL palsu untuk modul yang belum dibuat, dipakai lewat override_settings(ROOT_URLCONF=...)
+urlpatterns = [
+    path("", include("main.urls")),
+    _ns("catalog", list=""),
+    _ns("shelves", list="", mine="saya/"),
+    _ns("preferences", list="", history="riwayat/"),
+    _ns("dataqueue", queue=""),
+    _ns("accounts", login="masuk/", register="daftar/", profile="profil/", logout="keluar/"),
+    _ns("kurator", dashboard=""),
+]
+
+
+def make_user(username, role="user", **extra):
+    user = User.objects.create_user(username, password="Rahasia12345", **extra)
+    user.profile.role = role
+    user.profile.display_name = username.capitalize()
+    user.profile.save()
+    return user
+
+
+class RoleTests(TestCase):
+    def test_guest(self):
+        self.assertEqual(get_role(AnonymousUser()), "guest")
+        self.assertEqual(get_role(None), "guest")
+
+    def test_user_and_curator(self):
+        self.assertEqual(get_role(make_user("budi")), "user")
+        self.assertTrue(is_curator(make_user("sari", role="curator")))
+
+    def test_superuser_is_not_curator(self):
+        admin = make_user("admin", is_superuser=True, is_staff=True)
+        self.assertEqual(get_role(admin), "user")
+
+    def test_user_without_profile_is_treated_as_user(self):
+        user = make_user("lama")
+        user.profile.delete()
+        user = User.objects.get(pk=user.pk)
+        self.assertEqual(get_role(user), "user")
+
+
+@override_settings(ROOT_URLCONF="main.tests")
+class NavigationTests(TestCase):
+    def labels(self, nav):
+        return [item["label"] for item in nav["items"]]
+
+    def test_guest_menu(self):
+        nav = build_navigation(AnonymousUser(), "/")
+        self.assertEqual(self.labels(nav), ["Katalog", "Shelf"])
+        self.assertTrue(nav["login_href"])
+        self.assertTrue(nav["register_url"])
+        self.assertIsNone(nav["panel_url"])
+        self.assertEqual([link["label"] for link in nav["account_links"]], ["Masuk", "Daftar"])
+
+    def test_user_menu(self):
+        nav = build_navigation(make_user("budi"), "/")
+        self.assertEqual(
+            self.labels(nav), ["Katalog", "Shelf", "Shelf saya", "Preferensi", "Riwayat", "Antrean data"]
+        )
+        self.assertIsNone(nav["panel_url"])
+        self.assertEqual(nav["display_name"], "Budi")
+        self.assertEqual([link["label"] for link in nav["account_links"]], ["Profil"])
+
+    def test_curator_menu_has_panel_link(self):
+        nav = build_navigation(make_user("sari", role="curator"), "/")
+        self.assertEqual(nav["panel_url"], reverse("kurator:dashboard"))
+        self.assertIn("Panel Kurator", [link["label"] for link in nav["account_links"]])
+
+    def test_only_the_most_specific_item_is_active(self):
+        user = make_user("budi")
+        for path_, expected in [("/shelves/saya/", "Shelf saya"), ("/shelves/", "Shelf"), ("/catalog/", "Katalog")]:
+            with self.subTest(path=path_):
+                nav = build_navigation(user, path_)
+                self.assertEqual([i["label"] for i in nav["items"] if i["active"]], [expected])
+
+    def test_login_link_carries_next_except_on_home_and_auth_pages(self):
+        self.assertIn("next=%2Fshelves%2F", build_navigation(None, "/shelves/")["login_href"])
+        login = reverse("accounts:login")
+        self.assertEqual(build_navigation(None, "/")["login_href"], login)
+        self.assertEqual(build_navigation(None, login)["login_href"], login)
+
+    def test_rendered_guest_navbar(self):
+        response = self.client.get("/")
+        self.assertContains(response, "Masuk")
+        self.assertContains(response, "Daftar")
+        self.assertNotContains(response, "Keluar")
+        self.assertNotContains(response, "Panel Kurator")
+
+    def test_rendered_user_navbar_has_post_logout_form_with_csrf(self):
+        self.client.force_login(make_user("budi"))
+        html = self.client.get("/").content.decode()
+        self.assertIn('method="post" action="/accounts/keluar/"', html)
+        self.assertIn("csrfmiddlewaretoken", html)
+        self.assertIn("Budi", html)
+        self.assertNotIn("Panel Kurator", html)
+
+    def test_rendered_curator_navbar(self):
+        self.client.force_login(make_user("sari", role="curator"))
+        self.assertContains(self.client.get("/"), "Panel Kurator")
+
+    def test_footer_has_attribution_and_disclaimer(self):
+        html = self.client.get("/").content.decode()
+        self.assertIn("ODbL", html)
+        self.assertIn("CC BY-SA", html)
+        self.assertIn("bukan saran kesehatan", html)
+
+
+class NavigationWithoutModulesTests(TestCase):
+    """Sekarang modul lain belum ada: menu kosong, tapi halaman tetap jalan."""
+
+    def test_missing_urls_are_skipped_without_error(self):
+        nav = build_navigation(AnonymousUser(), "/")
+        self.assertEqual(nav["items"], [])
+        self.assertIsNone(nav["login_href"])
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_logged_in_user_without_modules(self):
+        self.client.force_login(make_user("budi"))
+        response = self.client.get("/")
+        self.assertContains(response, "Budi")
+        self.assertNotContains(response, '<form class="site-nav__logout"')

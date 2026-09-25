@@ -15,6 +15,9 @@
   .sg-cell { display: grid; justify-items: center; gap: .5rem; text-align: center; font-size: .8125rem; color: var(--text-muted); }
   .sg-icons { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); }
   .sg-note { font-size: .875rem; color: var(--text-muted); margin-bottom: 1rem; max-width: 64ch; }
+  .sg-frame { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+  .sg-frame .site-footer { margin-top: 0; }
+  .sg-frame + .label { margin-top: 1.5rem; }
 </style>
 {% endblock %}
 
@@ -284,6 +287,20 @@
     </div>
   </section>
 
+  {# ---------------- Navbar dan footer ---------------- #}
+  <section class="sg-section" id="navbar">
+    <h2>Navbar dan footer</h2>
+    <p class="sg-note">Tiga kondisi pengguna, dirender dari kode yang sama dengan situs. Perkecil jendela di bawah 1200 px untuk melihat menu ponsel. Tautan di sini palsu.</p>
+    <p class="label" style="margin-bottom: .5rem;">Pengunjung</p>
+    <div class="sg-frame">{% include "partials/navbar.html" with nav=nav_guest nav_id="nav-guest" %}</div>
+    <p class="label" style="margin-bottom: .5rem;">Pengguna terdaftar</p>
+    <div class="sg-frame">{% include "partials/navbar.html" with nav=nav_user nav_id="nav-user" %}</div>
+    <p class="label" style="margin-bottom: .5rem;">Kurator</p>
+    <div class="sg-frame">{% include "partials/navbar.html" with nav=nav_curator nav_id="nav-curator" %}</div>
+    <p class="label" style="margin-bottom: .5rem;">Footer (kurator)</p>
+    <div class="sg-frame">{% include "partials/footer.html" with nav=nav_curator %}</div>
+  </section>
+  
   {# ---------------- Ikon ---------------- #}
   <section class="sg-section" id="ikon">
     <h2>Ikon</h2>
